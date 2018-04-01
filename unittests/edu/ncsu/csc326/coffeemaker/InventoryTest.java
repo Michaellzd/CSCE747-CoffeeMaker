@@ -61,6 +61,32 @@ public class InventoryTest {
 	}
 
 	@Test
+	public void TestaddChocolateBad() {
+		String added = "asdf";
+		try {
+			int bF = inventory.getChocolate();
+			inventory.addChocolate(added);
+			assertEquals(inventory.getChocolate(), bF + new Integer(added));
+			fail("Exception should be thrown");
+		} catch (Exception e) {
+			// Exception should be thrown
+		}
+	}
+
+	@Test
+	public void TestaddChocolateBad1() {
+		String added = "-1";
+		try {
+			int bF = inventory.getChocolate();
+			inventory.addChocolate(added);
+			assertEquals(inventory.getChocolate(), bF + new Integer(added));
+			fail("Exception should be thrown");
+		} catch (Exception e) {
+			// Exception should be thrown
+		}
+	}
+
+	@Test
 	public void TestgetCoffee() {
 		try {
 			assertEquals(15, inventory.getCoffee());
@@ -73,8 +99,20 @@ public class InventoryTest {
 	@Test
 	public void TestsetCoffee() {
 		try {
-			inventory.setChocolate(15);
-			assertEquals(15, inventory.getChocolate());
+			inventory.setCoffee(15);
+			assertEquals(15, inventory.getCoffee());
+		} catch (Exception e) {
+			fail("Exception should not be thrown");
+		}
+	}
+
+	@Test
+	public void TestsetCoffeeBad() {
+		try {
+			int num = inventory.getCoffee();
+			inventory.setCoffee(-1);
+			// Num of coffee should be unchanged
+			assertEquals(num, inventory.getCoffee());
 		} catch (Exception e) {
 			fail("Exception should not be thrown");
 		}
@@ -126,7 +164,6 @@ public class InventoryTest {
 		} catch (Exception e) {
 			fail("Exception should not be thrown");
 		}
-
 	}
 
 	@Test
@@ -161,7 +198,6 @@ public class InventoryTest {
 		} catch (Exception e) {
 			fail("Exception should not be thrown");
 		}
-
 	}
 
 	@Test
@@ -175,7 +211,6 @@ public class InventoryTest {
 		} catch (Exception e) {
 			// Exception should be thrown
 		}
-
 	}
 
 	@Test
@@ -189,7 +224,6 @@ public class InventoryTest {
 		} catch (Exception e) {
 			// Exception should be thrown
 		}
-
 	}
 
 	@Test
@@ -234,7 +268,6 @@ public class InventoryTest {
 		} catch (Exception e) {
 			fail("Exception should not be thrown");
 		}
-
 	}
 
 	/**
@@ -255,7 +288,6 @@ public class InventoryTest {
 		} catch (Exception e) {
 			// Exception should be thrown
 		}
-
 	}
 
 	@Test
@@ -269,22 +301,27 @@ public class InventoryTest {
 		} catch (Exception e) {
 			// Exception should be thrown
 		}
-
 	}
 
 	@Test
 	public void TestenoughIngredients() {
 		Recipe r = new Recipe();
+		Recipe r1 = new Recipe();
 		try {
 			r.setAmtCoffee("3");
 			r.setAmtMilk("1");
 			r.setAmtSugar("4");
 			r.setAmtChocolate("2");
 			assertTrue(inventory.enoughIngredients(r));
+			
+			r1.setAmtCoffee("100000");
+			r1.setAmtMilk("100000");
+			r1.setAmtSugar("100000");
+			r1.setAmtChocolate("100000");
+			assertFalse(inventory.enoughIngredients(r1));
 		} catch (Exception e) {
 			fail("Exception should not be thrown");
 		}
-
 	}
 
 	@Test
@@ -295,12 +332,11 @@ public class InventoryTest {
 			r.setAmtMilk("1");
 			r.setAmtSugar("-3");
 			r.setAmtChocolate("-4");
-			assertTrue(inventory.enoughIngredients(r));
+			assertFalse(inventory.enoughIngredients(r));
 			fail("Exception should be thrown");
 		} catch (Exception e) {
 			// Exception should be thrown
 		}
-
 	}
 
 	@Test
@@ -320,10 +356,9 @@ public class InventoryTest {
 	/**
 	 * Use ingredients
 	 * 
-	 * This revealed that the amount of coffee was being added to the
-	 * total inventory instead of subtracted. The fix was to change
-	 * a += to a -= so that the coffee being used is correctly subtracted
-	 * from the inventory.
+	 * This revealed that the amount of coffee was being added to the total
+	 * inventory instead of subtracted. The fix was to change a += to a -= so that
+	 * the coffee being used is correctly subtracted from the inventory.
 	 */
 	@Test
 	public void TestuseIngredients2() {
@@ -349,11 +384,6 @@ public class InventoryTest {
 		}
 	}
 
-	/**
-	 * Test use ingredients
-	 * 
-	 * This test was unable to reveal the fault in the use ingredients function.
-	 */
 	@Test
 	public void TestuseIngredientsBad() {
 		Recipe r = new Recipe();
