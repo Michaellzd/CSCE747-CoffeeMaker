@@ -74,8 +74,9 @@ public class RecipeBook {
 	 */
 	public synchronized String editRecipe(int recipeToEdit, Recipe newRecipe) {
 		if (recipeArray[recipeToEdit] != null) {
-			String recipeName = recipeArray[recipeToEdit].getName();
-			newRecipe.setName("");
+			//FIXED: String recipeName = recipeArray[recipeToEdit].getName();
+			//FIXED: newRecipe.setName("");
+			String recipeName = newRecipe.getName();
 			recipeArray[recipeToEdit] = newRecipe;
 			return recipeName;
 		} else {
