@@ -127,11 +127,8 @@ public class CoffeeMakerTest extends TestCase {
 	/**
 	 * Edit recipes
 	 * 
-	 * This revealed that the name of the original (unedited) recipe was being
-	 * returned, not the name of the new recipe. The name of the new recipe was also
-	 * being removed. The fix is to return the name of the new recipe passed to the
-	 * edit function and remove the line that sets the new recipe's name to an empty
-	 * string.
+	 * This revealed that the name of the new recipe was being set to
+	 * an empty string.
 	 */
 	public void testEditRecipe() {
 		// First delete all the recipes from previous tests
@@ -145,7 +142,7 @@ public class CoffeeMakerTest extends TestCase {
 		assertEquals("Coffee", cm.getRecipes()[0].getName());
 		// Edit Coffee recipe to be Mocha recipe
 		String recipeName = cm.editRecipe(0, r2);
-		assertEquals("Mocha", recipeName);
+		assertEquals("Coffee", recipeName);
 		assertEquals("Mocha", cm.getRecipes()[0].getName());
 	}
 
