@@ -3,6 +3,7 @@ package edu.ncsu.csc326.coffeemaker;
 import static org.junit.Assert.assertNotNull;
 
 import edu.ncsu.csc326.coffeemaker.exceptions.InventoryException;
+import edu.ncsu.csc326.coffeemaker.exceptions.RecipeException;
 import junit.framework.TestCase;
 
 /**
@@ -112,8 +113,10 @@ public class CoffeeMakerTest extends TestCase {
 		}
 
 		cm.addRecipe(r1); // [r1, null, null, null]
+		assertFalse(cm.addRecipe(r1)); // [r1, null, null, null]
 		cm.addRecipe(r2); // [r1, r2, null, null]
 		cm.deleteRecipe(1); // [r1, null, null, null]
+		assertEquals(null, cm.deleteRecipe(2)); // Bad
 		assertEquals("Coffee", cm.getRecipes()[0].getName());
 		cm.addRecipe(r3); // [r1, r3, null, null]
 		cm.addRecipe(r2); // [r1, r3, r2, null]
@@ -122,6 +125,105 @@ public class CoffeeMakerTest extends TestCase {
 		cm.addRecipe(r1); // [r1, r3, r2, null]
 		cm.addRecipe(r4); // [r1, r3, r2, r4]
 		assertEquals("Hot Chocolate", cm.getRecipes()[3].getName());
+		
+	}
+	
+	/**
+	 * Add invalid recipes
+	 */
+	public void testAddInvalidRecipes() {
+		Recipe r =  new Recipe();
+		r.setName("Hot Chocolate");
+		
+		// invalid price
+		try {
+			r.setPrice("-50");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Price must be a positive integer", e.getMessage());
+		}
+		
+		// invalid coffee unit
+		try {
+			r.setAmtCoffee("-7");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of coffee must be a positive integer", e.getMessage());
+		}
+		
+		// invalid milk unit
+		try {
+			r.setAmtMilk("-2");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of milk must be a positive integer", e.getMessage());
+		}
+		
+		// invalid sugar unit
+		try {
+			r.setAmtSugar("-4");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of sugar must be a positive integer", e.getMessage());
+		}
+		
+		// invalid chocolate unit
+		try {
+			r.setAmtChocolate("-42222");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of chocolate must be a positive integer", e.getMessage());
+		}
+		
+		// invalid price type
+		try {
+			r.setPrice("-50");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Price must be a positive integer", e.getMessage());
+		}
+		
+		// invalid coffee unit type
+		try {
+			r.setAmtCoffee("a");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of coffee must be a positive integer", e.getMessage());
+		}
+		
+		// invalid milk unit type
+		try {
+			r.setAmtMilk("#");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of milk must be a positive integer", e.getMessage());
+		}
+		
+		// invalid sugar unit type
+		try {
+			r.setAmtSugar("wew");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of sugar must be a positive integer", e.getMessage());
+		}
+		
+		// invalid chocolate unit type
+		try {
+			r.setAmtChocolate(";;;");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Units of chocolate must be a positive integer", e.getMessage());
+		}	
 	}
 
 	/**
