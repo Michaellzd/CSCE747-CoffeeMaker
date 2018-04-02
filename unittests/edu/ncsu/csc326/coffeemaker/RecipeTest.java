@@ -4,9 +4,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.ncsu.csc326.coffeemaker.exceptions.RecipeException;
-
-class RecipeTest {
+public class RecipeTest {
 
 	private static Recipe r;
 
