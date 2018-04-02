@@ -305,6 +305,7 @@ public class InventoryTest {
 
 	@Test
 	public void TestenoughIngredients() {
+		inventory = new Inventory();
 		Recipe r = new Recipe();
 		Recipe r1 = new Recipe();
 		try {
@@ -313,7 +314,7 @@ public class InventoryTest {
 			r.setAmtSugar("4");
 			r.setAmtChocolate("2");
 			assertTrue(inventory.enoughIngredients(r));
-			
+
 			r1.setAmtCoffee("100000");
 			r1.setAmtMilk("100000");
 			r1.setAmtSugar("100000");
@@ -340,14 +341,60 @@ public class InventoryTest {
 	}
 
 	@Test
-	public void TestuseIngredients() {
+	public void TestenoughIngredientsBad1() {
 		Recipe r = new Recipe();
+		inventory = new Inventory();
 		try {
-			r.setAmtCoffee("2");
-			r.setAmtMilk("3");
+			r.setAmtCoffee("18");
+			r.setAmtMilk("1");
 			r.setAmtSugar("1");
-			r.setAmtChocolate("4");
-			assertTrue(inventory.useIngredients(r));
+			r.setAmtChocolate("1");
+			assertFalse(inventory.enoughIngredients(r));
+		} catch (Exception e) {
+			fail("Exception should not be thrown");
+		}
+	}
+
+	@Test
+	public void TestenoughIngredientsBad2() {
+		Recipe r = new Recipe();
+		inventory = new Inventory();
+		try {
+			r.setAmtCoffee("1");
+			r.setAmtMilk("18");
+			r.setAmtSugar("1");
+			r.setAmtChocolate("1");
+			assertFalse(inventory.enoughIngredients(r));
+		} catch (Exception e) {
+			fail("Exception should not be thrown");
+		}
+	}
+
+	@Test
+	public void TestenoughIngredientsBad3() {
+		Recipe r = new Recipe();
+		inventory = new Inventory();
+		try {
+			r.setAmtCoffee("1");
+			r.setAmtMilk("1");
+			r.setAmtSugar("18");
+			r.setAmtChocolate("1");
+			assertFalse(inventory.enoughIngredients(r));
+		} catch (Exception e) {
+			fail("Exception should not be thrown");
+		}
+	}
+
+	@Test
+	public void TestenoughIngredientsBad4() {
+		Recipe r = new Recipe();
+		inventory = new Inventory();
+		try {
+			r.setAmtCoffee("1");
+			r.setAmtMilk("1");
+			r.setAmtSugar("1");
+			r.setAmtChocolate("18");
+			assertFalse(inventory.enoughIngredients(r));
 		} catch (Exception e) {
 			fail("Exception should not be thrown");
 		}
@@ -361,7 +408,7 @@ public class InventoryTest {
 	 * the coffee being used is correctly subtracted from the inventory.
 	 */
 	@Test
-	public void TestuseIngredients2() {
+	public void TestuseIngredients() {
 		Recipe r = new Recipe();
 		try {
 			int numCoffee = inventory.getCoffee();
@@ -386,22 +433,21 @@ public class InventoryTest {
 
 	@Test
 	public void TestuseIngredientsBad() {
-		Recipe r = new Recipe();
+		Recipe r1 = new Recipe();
+		inventory = new Inventory();
 		try {
-			r.setAmtCoffee("0");
-			r.setAmtMilk("-3");
-			r.setAmtSugar("-1");
-			r.setAmtChocolate("4");
-			assertTrue(inventory.useIngredients(r));
-			fail("Exception should be thrown");
+			r1.setAmtCoffee("100000");
+			r1.setAmtMilk("100000");
+			r1.setAmtSugar("100000");
+			r1.setAmtChocolate("100000");
+			assertFalse(inventory.useIngredients(r1));
 		} catch (Exception e) {
-			// Exception should be thrown
+			fail("Exception should not be thrown");
 		}
 	}
 
 	@Test
 	public void TesttoString() {
 		assertNotNull(inventory.toString());
-
 	}
 }
