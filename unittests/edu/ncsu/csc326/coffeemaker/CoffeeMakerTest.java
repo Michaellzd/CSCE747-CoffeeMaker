@@ -471,4 +471,58 @@ public class CoffeeMakerTest extends TestCase {
 			fail("InventoryException should not be thrown");
 		}
 	}
+	
+	/**
+	 * Add invalid inventory
+	 */
+	public void testAddInvalidInventory() {
+		// First delete all the recipes from previous tests
+		int numRecipes = cm.getRecipes().length;
+		for (int i = 0; i < numRecipes; i++) {
+			cm.deleteRecipe(i);
+		}
+				
+		// Check inventory with added inventory
+		try {
+			cm.addInventory("-1", "1", "1", "1");
+		} catch (InventoryException e) {
+			assertEquals("Units of coffee must be a positive integer", e.getMessage());
+		}
+		try {
+			cm.addInventory("1", "-1", "1", "1");
+		} catch (InventoryException e) {
+			assertEquals("Units of milk must be a positive integer", e.getMessage());
+		}
+		try {
+			cm.addInventory("1", "1", "-1", "1");
+		} catch (InventoryException e) {
+			assertEquals("Units of sugar must be a positive integer", e.getMessage());
+		}
+		try {
+			cm.addInventory("1", "1", "1", "-1");
+		} catch (InventoryException e) {
+			assertEquals("Units of chocolate must be a positive integer", e.getMessage());
+		}
+		
+		try {
+			cm.addInventory("a", "1", "1", "1");
+		} catch (InventoryException e) {
+			assertEquals("Units of coffee must be a positive integer", e.getMessage());
+		}
+		try {
+			cm.addInventory("1", "apls", "1", "1");
+		} catch (InventoryException e) {
+			assertEquals("Units of milk must be a positive integer", e.getMessage());
+		}
+		try {
+			cm.addInventory("1", "1", "^^", "1");
+		} catch (InventoryException e) {
+			assertEquals("Units of sugar must be a positive integer", e.getMessage());
+		}
+		try {
+			cm.addInventory("1", "1", "1", "..w");
+		} catch (InventoryException e) {
+			assertEquals("Units of chocolate must be a positive integer", e.getMessage());
+		}
+	}
 }
