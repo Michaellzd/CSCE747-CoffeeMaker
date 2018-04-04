@@ -294,6 +294,7 @@ public class RecipeTest {
 	public void testEquals() {
 		Recipe r1 = new Recipe();
 		Recipe r2 = new Recipe();
+		assertTrue(r1.equals(r1));
 		assertTrue(r1.equals(r2));
 		assertFalse(r1.equals(null));
 
