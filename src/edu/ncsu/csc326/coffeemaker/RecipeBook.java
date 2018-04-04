@@ -76,6 +76,7 @@ public class RecipeBook {
 		if (recipeArray[recipeToEdit] != null) {
 			String recipeName = recipeArray[recipeToEdit].getName();
 			//FIXED: newRecipe.setName("");
+			newRecipe.setName(recipeName);
 			recipeArray[recipeToEdit] = newRecipe;
 			return recipeName;
 		} else {

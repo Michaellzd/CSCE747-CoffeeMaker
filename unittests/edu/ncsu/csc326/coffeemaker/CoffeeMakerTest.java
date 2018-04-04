@@ -307,6 +307,23 @@ public class CoffeeMakerTest extends TestCase {
 		cm.addRecipe(r4); // [r1, r3, r2, r4]
 		assertEquals("Hot Chocolate", cm.getRecipes()[3].getName());
 
+		numRecipes = cm.getRecipes().length;
+		for (int i = 0; i < numRecipes; i++) {
+			cm.deleteRecipe(i);
+		}
+		cm.addRecipe(r1);
+		Recipe r5 = new Recipe();
+		r5 = new Recipe();
+		try {
+			r5.setName("Coffee");
+			r5.setAmtChocolate("0");
+			r5.setAmtCoffee("3");
+			r5.setAmtMilk("1");
+			r5.setAmtSugar("1");
+			r5.setPrice("50");
+		} catch (Exception e) {
+		}
+		assertFalse(cm.addRecipe(r5));
 	}
 
 	/**
@@ -426,7 +443,7 @@ public class CoffeeMakerTest extends TestCase {
 		// Edit Coffee recipe to be Mocha recipe
 		String recipeName = cm.editRecipe(0, r2);
 		assertEquals("Coffee", recipeName);
-		assertEquals("Mocha", cm.getRecipes()[0].getName());
+		assertEquals("Coffee", cm.getRecipes()[0].getName());
 	}
 
 	/**
@@ -471,7 +488,7 @@ public class CoffeeMakerTest extends TestCase {
 			fail("InventoryException should not be thrown");
 		}
 	}
-	
+
 	/**
 	 * Add invalid inventory
 	 */
@@ -481,7 +498,7 @@ public class CoffeeMakerTest extends TestCase {
 		for (int i = 0; i < numRecipes; i++) {
 			cm.deleteRecipe(i);
 		}
-				
+
 		// Check inventory with added inventory
 		try {
 			cm.addInventory("-1", "1", "1", "1");
@@ -503,7 +520,7 @@ public class CoffeeMakerTest extends TestCase {
 		} catch (InventoryException e) {
 			assertEquals("Units of chocolate must be a positive integer", e.getMessage());
 		}
-		
+
 		try {
 			cm.addInventory("a", "1", "1", "1");
 		} catch (InventoryException e) {
