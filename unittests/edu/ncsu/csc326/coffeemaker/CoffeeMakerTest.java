@@ -302,6 +302,7 @@ public class CoffeeMakerTest extends TestCase {
 		cm.addRecipe(r3); // [r1, r3, null, null]
 		cm.addRecipe(r2); // [r1, r3, r2, null]
 		cm.deleteRecipe(0); // [null, r3, r2, null]
+		cm.deleteRecipe(0); // [null, r3, r2, null]
 		assertEquals("Latte", cm.getRecipes()[1].getName());
 		cm.addRecipe(r1); // [r1, r3, r2, null]
 		cm.addRecipe(r4); // [r1, r3, r2, r4]
@@ -321,9 +322,38 @@ public class CoffeeMakerTest extends TestCase {
 			r5.setAmtMilk("1");
 			r5.setAmtSugar("1");
 			r5.setPrice("50");
-		} catch (Exception e) {
+		} catch (RecipeException e) {
+			fail("Should not fail here");
 		}
 		assertFalse(cm.addRecipe(r5));
+	}
+	
+	/**
+	 * Test hash and string functions
+	 */
+	public void testHashAndString() {
+		// First delete all the recipes from previous tests
+		int numRecipes = cm.getRecipes().length;
+		for (int i = 0; i < numRecipes; i++) {
+			cm.deleteRecipe(i);
+		}
+		
+		Recipe r = new Recipe();
+		Recipe n = new Recipe();
+		r = new Recipe();
+		try {
+			r.setName("Coffee");
+			r.setAmtChocolate("0");
+			r.setAmtCoffee("3");
+			r.setAmtMilk("1");
+			r.setAmtSugar("1");
+			r.setPrice("50");
+		} catch (RecipeException e) {
+			fail("Should not fail here");
+		}
+		assertEquals("Coffee", r.toString());
+		assertEquals(2023803915, r.hashCode());
+		assertEquals(31, n.hashCode());
 	}
 
 	/**
@@ -380,7 +410,7 @@ public class CoffeeMakerTest extends TestCase {
 
 		// invalid price type
 		try {
-			r.setPrice("-50");
+			r.setPrice("sd");
 			fail("Something went wrong");
 		} catch (RecipeException e) {
 			// Good
@@ -421,6 +451,15 @@ public class CoffeeMakerTest extends TestCase {
 		} catch (RecipeException e) {
 			// Good
 			assertEquals("Units of chocolate must be a positive integer", e.getMessage());
+		}
+		
+		// invalid price type
+		try {
+			r.setPrice("-ew0");
+			fail("Something went wrong");
+		} catch (RecipeException e) {
+			// Good
+			assertEquals("Price must be a positive integer", e.getMessage());
 		}
 	}
 
